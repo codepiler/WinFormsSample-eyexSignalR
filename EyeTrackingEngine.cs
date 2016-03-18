@@ -310,7 +310,7 @@ namespace WinFormsSample
 
         private void OnGazeData(object sender, GazeDataEventArgs gazeDataEventArgs)
         {
-            /// Send eye position data
+            /// Send eye position data as [xOnScreen, yOnScreen, leftEyeX, leftEyeY, rightEyeX, rightEyeY, depthZ]
             // mirror the x coordinate to make the visualization make sense.
             var left = new Point2D(1 - gazeDataEventArgs.GazeData.Left.EyePositionInTrackBoxNormalized.X, gazeDataEventArgs.GazeData.Left.EyePositionInTrackBoxNormalized.Y);
             var right = new Point2D(1 - gazeDataEventArgs.GazeData.Right.EyePositionInTrackBoxNormalized.X, gazeDataEventArgs.GazeData.Right.EyePositionInTrackBoxNormalized.Y);
