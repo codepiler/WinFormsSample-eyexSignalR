@@ -310,7 +310,34 @@ namespace WinFormsSample
 
         private void OnGazeData(object sender, GazeDataEventArgs gazeDataEventArgs)
         {
-            /// Send eye position data as [xOnScreen, yOnScreen, leftEyeX, leftEyeY, rightEyeX, rightEyeY, depthZ]
+            var s = String.Format("{0},{1},{2},{3},{4},{5},{6},{7},{8},{9},{10},{11},{12},{13},{14},{15},{16},{17},{18},{19},{20},{21},{22},{23}",
+                    gazeDataEventArgs.GazeData.Timestamp.ToString(),
+                    gazeDataEventArgs.GazeData.TrackingStatus.ToString(),
+                    gazeDataEventArgs.GazeData.Left.EyePositionFromEyeTrackerMM.X.ToString(),
+                    gazeDataEventArgs.GazeData.Left.EyePositionFromEyeTrackerMM.Y.ToString(),
+                    gazeDataEventArgs.GazeData.Left.EyePositionFromEyeTrackerMM.Z.ToString(),
+                    gazeDataEventArgs.GazeData.Left.EyePositionInTrackBoxNormalized.X.ToString(),
+                    gazeDataEventArgs.GazeData.Left.EyePositionInTrackBoxNormalized.Y.ToString(),
+                    gazeDataEventArgs.GazeData.Left.EyePositionInTrackBoxNormalized.Z.ToString(),
+                    gazeDataEventArgs.GazeData.Left.GazePointFromEyeTrackerMM.X.ToString(),
+                    gazeDataEventArgs.GazeData.Left.GazePointFromEyeTrackerMM.Y.ToString(),
+                    gazeDataEventArgs.GazeData.Left.GazePointFromEyeTrackerMM.Z.ToString(),
+                    gazeDataEventArgs.GazeData.Left.GazePointOnDisplayNormalized.X.ToString(),
+                    gazeDataEventArgs.GazeData.Left.GazePointOnDisplayNormalized.Y.ToString(),
+                    gazeDataEventArgs.GazeData.Right.EyePositionFromEyeTrackerMM.X.ToString(),
+                    gazeDataEventArgs.GazeData.Right.EyePositionFromEyeTrackerMM.Y.ToString(),
+                    gazeDataEventArgs.GazeData.Right.EyePositionFromEyeTrackerMM.Z.ToString(),
+                    gazeDataEventArgs.GazeData.Right.EyePositionInTrackBoxNormalized.X.ToString(),
+                    gazeDataEventArgs.GazeData.Right.EyePositionInTrackBoxNormalized.Y.ToString(),
+                    gazeDataEventArgs.GazeData.Right.EyePositionInTrackBoxNormalized.Z.ToString(),
+                    gazeDataEventArgs.GazeData.Right.GazePointFromEyeTrackerMM.X.ToString(),
+                    gazeDataEventArgs.GazeData.Right.GazePointFromEyeTrackerMM.Y.ToString(),
+                    gazeDataEventArgs.GazeData.Right.GazePointFromEyeTrackerMM.Z.ToString(),
+                    gazeDataEventArgs.GazeData.Right.GazePointOnDisplayNormalized.X.ToString(),
+                    gazeDataEventArgs.GazeData.Right.GazePointOnDisplayNormalized.Y.ToString());
+
+
+            /// Send eye position data
             // mirror the x coordinate to make the visualization make sense.
             var left = new Point2D(1 - gazeDataEventArgs.GazeData.Left.EyePositionInTrackBoxNormalized.X, gazeDataEventArgs.GazeData.Left.EyePositionInTrackBoxNormalized.Y);
             var right = new Point2D(1 - gazeDataEventArgs.GazeData.Right.EyePositionInTrackBoxNormalized.X, gazeDataEventArgs.GazeData.Right.EyePositionInTrackBoxNormalized.Y);
@@ -354,9 +381,13 @@ namespace WinFormsSample
 
                 RaiseGazePoint(p);
 
+                /*
                 string[] gazePackage = {p.X.ToString(), p.Y.ToString(),left.X.ToString(),
                                        left.Y.ToString(), right.X.ToString(), right.Y.ToString(), z.ToString()};
-                string gazeString = String.Join(" ", gazePackage);
+                string gazeString = String.Join(" ", gazePackage);*/
+                string gazeString = String.Format("{0},{1},{2},{3},{4},{5},{6},{7}",
+                                                 p.X.ToString(), p.Y.ToString(), left.X.ToString(),
+                                                 left.Y.ToString(), right.X.ToString(), right.Y.ToString(), z.ToString(), s);
                 context.Clients.All.addMessage("name", gazeString);  //SingalR 
             }
             else if (gazeData.TrackingStatus == TrackingStatus.OnlyLeftEyeTracked ||
@@ -364,10 +395,14 @@ namespace WinFormsSample
             {
                 RaiseGazePoint(gazeData.Left.GazePointOnDisplayNormalized);
 
-                string[] gazePackage = {gazeData.Left.GazePointOnDisplayNormalized.X.ToString(), 
+                /*string[] gazePackage = {gazeData.Left.GazePointOnDisplayNormalized.X.ToString(), 
                                            gazeData.Left.GazePointOnDisplayNormalized.Y.ToString(),
                                            left.X.ToString(), left.Y.ToString(), right.X.ToString(), right.Y.ToString(), z.ToString()};
-                string gazeString = String.Join(" ", gazePackage);
+                string gazeString = String.Join(" ", gazePackage);*/
+                string gazeString = String.Format("{0},{1},{2},{3},{4},{5},{6},{7}",
+                                                   gazeData.Left.GazePointOnDisplayNormalized.X.ToString(),
+                                                   gazeData.Left.GazePointOnDisplayNormalized.Y.ToString(),
+                                                   left.X.ToString(), left.Y.ToString(), right.X.ToString(), right.Y.ToString(), z.ToString(), s);
                 context.Clients.All.addMessage("name", gazeString);  //SingalR 
 
                 //context.Clients.All.addMessage(gazeData.Left.GazePointOnDisplayNormalized.X.ToString(),
@@ -379,10 +414,15 @@ namespace WinFormsSample
             {
                 RaiseGazePoint(gazeData.Right.GazePointOnDisplayNormalized);
 
-                string[] gazePackage = {gazeData.Right.GazePointOnDisplayNormalized.X.ToString(), 
+                /*string[] gazePackage = {gazeData.Right.GazePointOnDisplayNormalized.X.ToString(), 
                                            gazeData.Right.GazePointOnDisplayNormalized.Y.ToString(),
                                            left.X.ToString(), left.Y.ToString(), right.X.ToString(), right.Y.ToString(), z.ToString()};
-                string gazeString = String.Join(" ", gazePackage);
+                string gazeString = String.Join(" ", gazePackage);*/
+                string gazeString = String.Format("{0},{1},{2},{3},{4},{5},{6},{7}",
+                                           gazeData.Right.GazePointOnDisplayNormalized.X.ToString(),
+                                           gazeData.Right.GazePointOnDisplayNormalized.Y.ToString(),
+                                           left.X.ToString(), left.Y.ToString(), right.X.ToString(), right.Y.ToString(), z.ToString(), s);
+
                 context.Clients.All.addMessage("name", gazeString);  //SingalR 
 
                 //context.Clients.All.addMessage(gazeData.Right.GazePointOnDisplayNormalized.X.ToString(),
